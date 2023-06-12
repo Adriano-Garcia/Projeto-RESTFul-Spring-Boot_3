@@ -5,27 +5,17 @@ import java.io.Serializable;
 public class UserRequestDTO implements Serializable{
 		private static final long serialVersionUID = 1L;
 
-		private Long id;
 		private String firstName;
 		private String lastName;
 		private String email;
 		private String password;
 		
 		
-		public UserRequestDTO(Long id, String firstName, String lastName, String email, String password) {
-			this.id = id;
+		public UserRequestDTO(String firstName, String lastName, String email, String password) {
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.email = email;
 			this.password = password;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
 		}
 
 		public String getFirstName() {
@@ -59,5 +49,13 @@ public class UserRequestDTO implements Serializable{
 		public void setPassword(String password) {
 			this.password = password;
 		}
+
+		@Override
+		public String toString() {
+			return "UserRequestDTO [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+					+ ", password=" + password + "]";
+		}
+		
+		
 
 }

@@ -10,7 +10,7 @@ public class RequiredObjectIsNullException extends RuntimeException{
 	
 	public RequiredObjectIsNullException() {
 		super("Não é permitido persistir um objeto nulo");
-	}	
+	}
 	
 	public RequiredObjectIsNullException(String ex) {
 		super(ex);
