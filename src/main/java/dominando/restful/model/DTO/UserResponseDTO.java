@@ -2,7 +2,9 @@ package dominando.restful.model.DTO;
 
 import java.io.Serializable;
 
-public class UserResponseDTO implements Serializable{
+import org.springframework.hateoas.RepresentationModel;
+
+public class UserResponseDTO extends RepresentationModel<UserResponseDTO> implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;

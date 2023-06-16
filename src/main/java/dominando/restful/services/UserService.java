@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import dominando.restful.controllers.UserController;
 import dominando.restful.exceptions.RequiredObjectIsNullException;
 import dominando.restful.exceptions.ResourceNotFoundException;
 import dominando.restful.mapper.UserMapper;
@@ -26,6 +30,9 @@ public class UserService {
 		var listUser = repository.findAll();
 		List<UserResponseDTO> listResponse = listUser.stream().map(p -> mapper.toUserResponseDTO(p))
 				.collect(Collectors.toList());
+		listResponse
+		.stream()
+		.forEach(p -> p.add(linkTo(methodOn(UserController.class).findById(p.getId())).withSelfRel()));
 		return listResponse;
 	}
 	
@@ -33,6 +40,7 @@ public class UserService {
 		var user = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para este id!"));
 		UserResponseDTO userResponse = mapper.toUserResponseDTO(user);
+		userResponse.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
 		return userResponse;
 	}
 	
@@ -40,6 +48,7 @@ public class UserService {
 		if (userRequest == null) throw new RequiredObjectIsNullException();
 		var user = mapper.toUserInResquest(userRequest);
 		var userResponse = mapper.toUserResponseDTO(repository.save(user));
+		userResponse.add(linkTo(methodOn(UserController.class).findById(userResponse.getId())).withSelfRel());
 		return userResponse;
 	}
 	
@@ -52,6 +61,7 @@ public class UserService {
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(userRequest.getPassword());
 		var userResponse = mapper.toUserResponseDTO(user);
+		userResponse.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
 		return userResponse;
 	}
 	
