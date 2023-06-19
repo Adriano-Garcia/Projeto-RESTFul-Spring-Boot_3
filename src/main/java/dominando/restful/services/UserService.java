@@ -60,7 +60,7 @@ public class UserService {
 		user.setLastName(userRequest.getLastName());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(userRequest.getPassword());
-		var userResponse = mapper.toUserResponseDTO(user);
+		var userResponse = mapper.toUserResponseDTO(repository.save(user));
 		userResponse.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
 		return userResponse;
 	}

@@ -14,35 +14,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dominando.restful.model.DTO.UserRequestDTO;
-import dominando.restful.model.DTO.UserResponseDTO;
-import dominando.restful.services.UserService;
+import dominando.restful.model.DTO.BookRequestDTO;
+import dominando.restful.model.DTO.BookResponseDTO;
+import dominando.restful.services.BookService;
 import dominando.restful.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/users")
-@Tag(name = "Users", description = "Endpoints for Managing Users")
-public class UserController {
+@RequestMapping("/api/books")
+@Tag(name = "Books", description = "Endpoints for Managing Books")
+public class BookController {
 	
 	@Autowired
-	private UserService service;
+	private BookService service;
 	
 	@GetMapping(
 			produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-	@Operation(summary = "Finds all User", description = "Finds all User",
-	tags = {"Users"},
+	@Operation(summary = "Finds all Book", description = "Finds all Book",
+	tags = {"Books"},
 	responses = {
 		@ApiResponse(description = "Success", responseCode = "200",
 			content = {
 				@Content(
 					mediaType = "application/json",
-					array = @ArraySchema(schema = @Schema(implementation = UserResponseDTO.class))
+					array = @ArraySchema(schema = @Schema(implementation = BookResponseDTO.class))
 				)
 			}),
 		@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -51,18 +51,18 @@ public class UserController {
 		@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 	}
 )
-	public ResponseEntity<List<UserResponseDTO>> findAll(){
+	public ResponseEntity<List<BookResponseDTO>> findAll(){
 		var entity = service.findAll();
 		return ResponseEntity.ok().body(entity);	
 	}
 	
 	@GetMapping(value = "/{id}", 
 			produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-	@Operation(summary = "Finds a User", description = "Finds a User",
-	tags = {"Users"},
+	@Operation(summary = "Finds a Book", description = "Finds a Book",
+	tags = {"Books"},
 	responses = {
 		@ApiResponse(description = "Success", responseCode = "200",
-			content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+			content = @Content(schema = @Schema(implementation = BookResponseDTO.class))
 		),
 		@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 		@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -71,7 +71,7 @@ public class UserController {
 		@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 	}
 )
-	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
+	public ResponseEntity<BookResponseDTO> findById(@PathVariable Long id){
 		var entity = service.findById(id);
 		return ResponseEntity.ok().body(entity);	
 	}
@@ -79,32 +79,32 @@ public class UserController {
 	@PostMapping(
 			consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML  },
 			produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML  })
-		@Operation(summary = "Adds a new User",
-			description = "Adds a new User by passing in a JSON, XML or YML representation of the user!",
-			tags = {"Users"},
+		@Operation(summary = "Adds a new Book",
+			description = "Adds a new Book by passing in a JSON, XML or YML representation of the book!",
+			tags = {"Books"},
 			responses = {
 				@ApiResponse(description = "Success", responseCode = "201",
-					content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+					content = @Content(schema = @Schema(implementation = BookResponseDTO.class))
 				),
 				@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 				@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 				@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 			}
 		)
-	public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO userRequest){
-		var entity = service.create(userRequest);
+	public ResponseEntity<BookResponseDTO> create(@RequestBody BookRequestDTO bookRequest){
+		var entity = service.create(bookRequest);
 		return new ResponseEntity<>(entity, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/{id}",
 					consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML  },
 					produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML  })
-				@Operation(summary = "Updates a User",
-					description = "Updates a User by passing in a JSON, XML or YML representation of the user!",
-					tags = {"Users"},
+				@Operation(summary = "Updates a Book",
+					description = "Updates a Book by passing in a JSON, XML or YML representation of the book!",
+					tags = {"Books"},
 					responses = {
 						@ApiResponse(description = "Updated", responseCode = "200",
-							content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+							content = @Content(schema = @Schema(implementation = BookResponseDTO.class))
 						),
 						@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 						@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -112,15 +112,15 @@ public class UserController {
 						@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 					}
 				)
-	public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody UserRequestDTO userRequest){
-		var entity = service.update(id, userRequest);
+	public ResponseEntity<BookResponseDTO> update(@PathVariable Long id, @RequestBody BookRequestDTO bookRequest){
+		var entity = service.update(id, bookRequest);
 		return ResponseEntity.ok().body(entity);
 	}
 	
 	@DeleteMapping("/{id}")
-	@Operation(summary = "Deletes a User",
-	description = "Deletes a User by passing in a JSON, XML or YML representation of the user!",
-	tags = {"Users"},
+	@Operation(summary = "Deletes a Book",
+	description = "Deletes a Book by passing in a JSON, XML or YML representation of the book!",
+	tags = {"Books"},
 	responses = {
 		@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 		@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

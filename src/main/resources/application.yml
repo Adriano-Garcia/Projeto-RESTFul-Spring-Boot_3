@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/restful_user
+    url: jdbc:postgresql://localhost:5432/restful
     username: dev_java
     password: 123
   jpa:
