@@ -129,7 +129,7 @@ public class UserController {
 		@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 	}
 )
-	public ResponseEntity<Void> delete(Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
